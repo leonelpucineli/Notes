@@ -84,7 +84,7 @@ public class NoteMethods {
         }
     }
 
-    public static void list() {
+    public static void list(boolean onlyTitleView) {
         String directoryPath = System.getProperty("user.home") + "/NotesStorage/";
 
         File directory = new File(directoryPath);
@@ -93,11 +93,13 @@ public class NoteMethods {
             File[] files = directory.listFiles();
 
             if (files != null) {
-
                 String fileName;
                 int n = 0;
                 for (File file : files) {
-                    fileName = file.getName().substring(16);
+                    fileName = file.getName();
+                    if (onlyTitleView) {
+                        fileName = file.getName().substring(16);
+                    }
                     n++;
                     System.out.println(n + " - " + fileName);
                 }
@@ -111,4 +113,5 @@ public class NoteMethods {
         }
 
     }
+    
 }

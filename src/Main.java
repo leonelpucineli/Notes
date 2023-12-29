@@ -18,7 +18,7 @@ public class Main {
                     System.out.println();
                     break;
                 case 2:
-                    NoteMethods.list();
+                    NoteMethods.list(true);
                     System.out.println();
                     break;
                 default:
