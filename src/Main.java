@@ -1,14 +1,15 @@
 public class Main {
     public static void main(String[] args) {
 
-        System.out.println("Welcome, user!");
+        String systemUserName = System.getProperty("user.name");
+        System.out.println("Welcome, " + systemUserName + "!");
 
         int selection = 1;
-        String systemUserName = System.getProperty("user.name");
+
         String directoryPath = "/home/" + systemUserName + "/NoteStorage/";
 
         String systemOSName = System.getProperty("os.name");
-        if (systemOSName.substring(0,7) == "Windows"){
+        if (systemOSName.startsWith("Windows")){
             directoryPath = "C:\\Users\\" + systemUserName + "\\NoteStorage\\";
         }
 
@@ -26,6 +27,7 @@ public class Main {
                     System.out.println();
                     break;
                 case 2:
+                    System.out.println("From: " + directoryPath);
                     NoteMethods.list(directoryPath,true);
                     System.out.println();
                     break;
