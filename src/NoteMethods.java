@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class NoteMethods {
@@ -54,9 +55,8 @@ public class NoteMethods {
         return String.format("{\"id\": \"%s\", \"title\": \"%s\", \"content\": \"%s\", \"creationDate\": \"%s\", \"lastChangeDate\": \"%s\"}", note.id, note.title, note.content, note.creationDate, note.lastChangeDate);
     }
 
-    public static void saveFile(String noteFileContent, Note note) {
+    public static void saveFile(String directoryPath, String noteFileContent, Note note) {
 
-        String directoryPath = System.getProperty("user.home") + "/NotesStorage/";
         String filePath = directoryPath + note.creationDate + "_" + note.title;
         File noteFile = new File(filePath);
         File directory = new File(directoryPath);
@@ -84,8 +84,7 @@ public class NoteMethods {
         }
     }
 
-    public static void list(boolean onlyTitleView) {
-        String directoryPath = System.getProperty("user.home") + "/NotesStorage/";
+    public static void list(String directoryPath, boolean onlyTitleView) {
 
         File directory = new File(directoryPath);
 
@@ -109,9 +108,8 @@ public class NoteMethods {
             }
         }
         else {
-            System.out.println(directoryPath + " is not an valid directory.");
+            System.out.println("'" + directoryPath + "' is not an valid directory.");
         }
 
     }
-    
 }
