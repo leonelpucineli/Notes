@@ -1,5 +1,3 @@
-import java.lang.reflect.Constructor;
-
 public class Note {
     String id;
     String title;

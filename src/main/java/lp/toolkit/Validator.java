@@ -1,3 +1,5 @@
+package lp.toolkit;
+
 import java.util.Scanner;
 
 public class Validator {

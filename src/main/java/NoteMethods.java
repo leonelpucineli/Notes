@@ -110,6 +110,36 @@ public class NoteMethods {
         else {
             System.out.println("'" + directoryPath + "' is not an valid directory.");
         }
+    }
 
+    public static ArrayList<String> filesArrayList(String directoryPath) {
+        ArrayList<String> filesArrayList = new ArrayList<String>();
+
+
+        File directory = new File(directoryPath);
+
+        if (directory.isDirectory()) {
+            File[] files = directory.listFiles();
+
+            if (files != null) {
+                String fileName;
+                for (File file : files) {
+                    filesArrayList.add(file.getName());
+                }
+            }
+            else {
+                System.out.println("Directory '" + directoryPath + "' is empty.");
+            }
+        }
+        else {
+            System.out.println("'" + directoryPath + "' is not an valid directory.");
+        }
+
+        return filesArrayList;
+    }
+
+    public static void delete(int selection, String filePath, ArrayList<String> notesList) {
+        File file = new File(filePath);
+        file.delete();
     }
 }

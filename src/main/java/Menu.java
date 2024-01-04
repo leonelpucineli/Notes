@@ -5,6 +5,7 @@ public class Menu {
                 Chose an action:
                 1 - Write a new note
                 2 - List my notes by title
+                3 - Delete a note
                 0 - Close program
                 >>> \s""");
     }
