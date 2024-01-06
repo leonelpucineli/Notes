@@ -30,34 +30,41 @@ public class Main {
             System.out.println();
 
             switch (selection){
-                case 1:
-                    Note note = NoteMethods.createNewNote();
-                    String noteFileContent = NoteMethods.createFileContent(note);
-                    NoteMethods.saveFile(directoryPath, noteFileContent, note);
+                case 1 -> {
+
+                    // Instantiate a new note
+                    Note note = new Note();
+                    note.setContent();
+                    note.setTitle();
+                    note.setCreationDate();
+                    note.setId();
+
+                    // Saves the content
+                    note.save(directoryPath);
                     System.out.println();
-                    break;
-                case 2:
+                }
+                case 2 -> {
                     System.out.println("From: " + directoryPath);
-                    NoteMethods.list(directoryPath,true);
+                    Note.list(directoryPath,true);
                     System.out.println();
-                    break;
-                case 3:
-                    NoteMethods.list(directoryPath,true);
+                }
+                case 3 -> {
+                    Note.list(directoryPath,true);
                     System.out.println("Select one to delete: ");
-                    ArrayList<String> notesList = new ArrayList<String>(NoteMethods.filesArrayList(directoryPath));
+                    ArrayList<String> notesList = new ArrayList<String>(Note.filesArrayList(directoryPath));
                     selection = Validator.forInt(1, notesList.size(), "");
                     System.out.print("Confirm to delete " + notesList.get(selection-1) + "?\n1 - Yes\n0 - No\n>>> ");
                     int confirm = Validator.forInt(0, 1, "");
                     if (confirm == 1) {
                         filePath = directoryPath + notesList.get(selection - 1);
-                        NoteMethods.delete(selection, filePath, notesList);
+                        Note.delete(selection, filePath, notesList);
                     }
                     else{
                         System.out.println("Your note hasn't been deleted");
                     }
-                    break;
-                default:
-                    break;
+                }
+                default -> {
+                }
             }
         }
 
