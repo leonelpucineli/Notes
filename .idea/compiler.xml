@@ -9,5 +9,8 @@
         <module name="untitled" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Notes" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>

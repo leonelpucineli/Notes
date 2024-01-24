@@ -26,7 +26,7 @@ public class Main {
         // Main loop where the things happen.
         while (selection != 0) {
             Menu.home();
-            selection = Validator.forInt(0,3,"");
+            selection = Validator.forInt(0,4,"");
             System.out.println();
 
             switch (selection){
@@ -62,6 +62,14 @@ public class Main {
                     else{
                         System.out.println("Your note hasn't been deleted");
                     }
+                }
+                case 4 -> {
+                    System.out.println("Choose a note: ");
+                    Note.list(directoryPath,true);
+                    ArrayList<String> notesList = new ArrayList<String>(Note.filesArrayList(directoryPath));
+                    selection = Validator.forInt(1, notesList.size(), "");
+                    Note note = new Note(notesList.get(selection-1));
+                    System.out.println(note.getNote(directoryPath));
                 }
                 default -> {
                 }

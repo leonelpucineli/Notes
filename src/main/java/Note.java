@@ -1,12 +1,9 @@
-import java.io.IOException;
+import java.io.*;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 
 public class Note {
     private String id;
@@ -17,7 +14,11 @@ public class Note {
 
     Scanner keyboard = new Scanner(System.in);
 
-    public Note() {};
+    public Note() {}
+
+    public Note(String title) {
+        this.title = title;
+    }
 
     /*private Note(String id, String title, String content, String creationDate, String lastChangeDate) {
         this.id = id;
@@ -114,7 +115,8 @@ public class Note {
             bufferedWriter.close();
 
             System.out.println("File saved successfully on " + noteFile);
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -176,5 +178,25 @@ public class Note {
         }
 
         return filesArrayList;
+    }
+
+    // getNote() needs to 'return new Note(...)'
+    public String getNote(String directoryPath) {
+        String fileContent = null;
+        try (BufferedReader reader = new BufferedReader(new FileReader(directoryPath+title))) {
+            StringBuilder stringBuilder = new StringBuilder();
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                stringBuilder.append(line).append("/n");
+            }
+
+            fileContent = stringBuilder.toString();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return fileContent;
     }
 }
