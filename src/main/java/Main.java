@@ -1,6 +1,5 @@
 import lp.toolkit.Validator;
 
-import javax.management.remote.NotificationResult;
 import java.util.ArrayList;
 
 public class Main {
@@ -69,7 +68,10 @@ public class Main {
                     ArrayList<String> notesList = new ArrayList<String>(Note.filesArrayList(directoryPath));
                     selection = Validator.forInt(1, notesList.size(), "");
                     Note note = new Note(notesList.get(selection-1));
-                    System.out.println(note.getNote(directoryPath));
+                    note.setNote(directoryPath);
+                    note.getNoteInfo(false);
+
+                    System.out.println();
                 }
                 default -> {
                 }

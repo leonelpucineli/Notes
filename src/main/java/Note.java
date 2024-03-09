@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
+import lp.toolkit.JSON;
 
 public class Note {
     private String id;
@@ -15,25 +16,28 @@ public class Note {
     Scanner keyboard = new Scanner(System.in);
 
     public Note() {}
-
+        
     public Note(String title) {
         this.title = title;
     }
 
-    /*private Note(String id, String title, String content, String creationDate, String lastChangeDate) {
+    public Note(String id, String title, String content, String creationDate, String lastChangeDate) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.creationDate = creationDate;
         this.lastChangeDate = lastChangeDate;
-    }*/
+    }
 
+    JSON noteJson = new JSON("id,title,content,creationDate,lastChangeDate");
+
+    // Getters and setters
     public String getId() {
         return id;
     }
 
     public String getTitle() {
-        return this.title;
+        return title;
     }
 
     public String getContent() {
@@ -87,8 +91,15 @@ public class Note {
     }
 
     public String createFileContent() {
-        // Creates a String compatible with JSON
-        return String.format("{\"id\": \"%s\", \"title\": \"%s\", \"content\": \"%s\", \"creationDate\": \"%s\", \"lastChangeDate\": \"%s\"}", this.id, this.title, this.content, this.creationDate, this.lastChangeDate);
+        // JSON noteJson = new JSON("id,title,content,creatonDate,lastChangeDate");
+        
+        noteJson.setValue("id", id);
+        noteJson.setValue("title", title);
+        noteJson.setValue("content", content);
+        noteJson.setValue("creationDate", creationDate);
+        noteJson.setValue("lastChangeDate", lastChangeDate);
+
+        return noteJson.toString();
     }
 
     public void save(String directoryPath) {
@@ -157,14 +168,12 @@ public class Note {
     public static ArrayList<String> filesArrayList(String directoryPath) {
         ArrayList<String> filesArrayList = new ArrayList<String>();
 
-
         File directory = new File(directoryPath);
 
         if (directory.isDirectory()) {
             File[] files = directory.listFiles();
 
             if (files != null) {
-                String fileName;
                 for (File file : files) {
                     filesArrayList.add(file.getName());
                 }
@@ -180,8 +189,8 @@ public class Note {
         return filesArrayList;
     }
 
-    // getNote() needs to 'return new Note(...)'
-    public String getNote(String directoryPath) {
+    // preciso separar setNote de get file usando o file manager.
+    public void setNote(String directoryPath) {
         String fileContent = null;
         try (BufferedReader reader = new BufferedReader(new FileReader(directoryPath+title))) {
             StringBuilder stringBuilder = new StringBuilder();
@@ -196,7 +205,23 @@ public class Note {
         catch (IOException e) {
             e.printStackTrace();
         }
+        noteJson.set(fileContent);
 
-        return fileContent;
+        id = noteJson.getValue("id").toString();
+        title = noteJson.getValue("title").toString();
+        content = noteJson.getValue("content").toString();
+        creationDate = noteJson.getValue("creationDate").toString();
+        lastChangeDate = noteJson.getValue("lastChangeDate").toString();
+    }
+
+    public void getNoteInfo(boolean detailed) {
+        System.out.println("Title: " + title);
+        System.out.println("Content: " + content);
+        
+        if (detailed) {
+            System.out.println("ID: " + id);
+            System.out.println("Creation date: " + creationDate);
+            System.out.println("Changed for the last time on: " + lastChangeDate);
+        } 
     }
 }

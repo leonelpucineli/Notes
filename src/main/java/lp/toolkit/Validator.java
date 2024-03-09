@@ -15,12 +15,15 @@ public class Validator {
         while (true) {
             try {
                 num = keyboard.nextInt();
+
                 if (min <= num && max >= num) {
                     break;
-                } else {
+                }
+                else {
                     System.out.print(errorMessage);
                 }
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 System.out.print(errorMessage);
                 keyboard.next();
             }
@@ -29,6 +32,3 @@ public class Validator {
         return num;
     }
 }
-
-
-
