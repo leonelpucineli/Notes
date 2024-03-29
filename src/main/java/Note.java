@@ -104,7 +104,7 @@ public class Note {
 
     public void save(String directoryPath) {
 
-        String filePath = directoryPath + creationDate + "_" + title;
+        String filePath = directoryPath + creationDate + "_" + title + ".txt";
         File noteFile = new File(filePath);
         File directory = new File(directoryPath);
 
@@ -115,14 +115,16 @@ public class Note {
 
             if (!noteFile.exists()) {
                 noteFile.createNewFile();
-                System.out.println("New file created at " + filePath);
+                System.out.println("New file created");
             }
 
+            System.out.println(1);
             FileWriter fileWriter = new FileWriter(noteFile);
+            System.out.println(2);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-
+            System.out.println(3);
             bufferedWriter.write(createFileContent());
-
+            System.out.println(4);
             bufferedWriter.close();
 
             System.out.println("File saved successfully on " + noteFile);
@@ -205,7 +207,8 @@ public class Note {
         catch (IOException e) {
             e.printStackTrace();
         }
-        noteJson.set(fileContent);
+        noteJson.setKeys(fileContent);
+        noteJson.setValues(fileContent);
 
         id = noteJson.getValue("id").toString();
         title = noteJson.getValue("title").toString();

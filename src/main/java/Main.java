@@ -52,7 +52,7 @@ public class Main {
                     System.out.println("Select one to delete: ");
                     ArrayList<String> notesList = new ArrayList<String>(Note.filesArrayList(directoryPath));
                     selection = Validator.forInt(1, notesList.size(), "");
-                    System.out.print("Confirm to delete " + notesList.get(selection-1) + "?\n1 - Yes\n0 - No\n>>> ");
+                    System.out.print("Confirm to delete " + notesList.get(selection-1) + "?\n1 - Yes\n0 - No\n>> ");
                     int confirm = Validator.forInt(0, 1, "");
                     if (confirm == 1) {
                         filePath = directoryPath + notesList.get(selection - 1);
@@ -66,6 +66,7 @@ public class Main {
                     System.out.println("Choose a note: ");
                     Note.list(directoryPath,true);
                     ArrayList<String> notesList = new ArrayList<String>(Note.filesArrayList(directoryPath));
+                    System.out.print(">> ");
                     selection = Validator.forInt(1, notesList.size(), "");
                     Note note = new Note(notesList.get(selection-1));
                     note.setNote(directoryPath);

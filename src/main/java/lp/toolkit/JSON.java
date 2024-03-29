@@ -62,7 +62,116 @@ public class JSON {
         }
     }
 
+    // Use key to get value
+    public Object getValue(String key) {
+        return keysValues.get(key);
+    }
+
+    /* public ArrayList<String> getValues(String string) {
+        ArrayList<String> keys = setKeys(string);
+        ArrayList<String> values = new ArrayList<>();
+        int index = 0;
+        int valueEndIndex = 0;
+
+        while (valueEndIndex >= string.length()) {
+            int keyIndex = string.indexOf(keys.get(index));
+            int nextKeyIndex = string.indexOf(keys.get(index + 1));
+            
+
+            int valueStartIndex = string.indexOf('"',keyIndex) + 3;
+
+            if (nextKeyIndex + 1 < keys.size()) {
+                valueEndIndex = nextKeyIndex-2;
+            }
+            else {
+                valueEndIndex = string.indexOf("}");
+            }
+
+            index++;
+
+            String value = string.substring(valueStartIndex, valueEndIndex);
+
+            values.add(value);
+
+        }
+
+        return values;
+    } */
     
+    public void setValues(String string) {
+        ArrayList<String> keys = new ArrayList<String>(keysValues.keySet());
+
+        int startIndex;
+        int endIndex;
+        Object value;
+
+        for (String key : keys) {
+            startIndex = string.indexOf(key) + key.length() + 3;
+            
+            endIndex = string.indexOf(",\"", startIndex);
+
+            if (endIndex == -1) {
+                endIndex = string.indexOf("}", startIndex);
+            }
+
+            value = string.substring(startIndex, endIndex);
+            this.keysValues.put(key, value);
+        }
+    }
+
+    public void setKeys(String string) {
+        this.keysValues = new HashMap<>();
+
+        ArrayList<String> keys = new ArrayList<>();
+        int index = 1; // Ignore {
+            
+        boolean firstIteration = true;
+
+        int colonIndex;
+        int startIndex;
+        int endIndex;
+
+        while (index < string.length()) {
+            if (firstIteration) {
+                endIndex = string.indexOf('"', 2);
+                keys.add(string.substring(2, endIndex));
+                firstIteration = false;
+                index = endIndex;   
+                continue;
+            }
+
+            colonIndex = string.indexOf(':', index);
+            startIndex = string.indexOf(",\"", colonIndex)+2;
+            if (startIndex == 1) {
+                break;
+            }
+            endIndex = string.indexOf('"', startIndex);
+            
+            String key = string.substring(startIndex, endIndex);
+
+            keys.add(key);
+
+            index = endIndex;
+        }
+        
+        for (String key : keys) {
+            this.keysValues.put(key, null);
+        }
+    }
+
+    /* public JSON set(String string){
+        ArrayList<String> values = getValues(string);
+        ArrayList<String> keys = setKeys(string);
+
+        HashMap<String, Object> keysValues = new HashMap<>();
+
+        for (int i = 0; i < values.size(); i++) {
+            keysValues.put(keys.get(i), values.get(i));
+        }
+
+        return new JSON(keysValues);
+    } */
+
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder("{");
         
@@ -98,86 +207,5 @@ public class JSON {
         stringBuilder.append("}");
         
         return stringBuilder.toString();
-    }
-    
-    public static ArrayList<String> getKeys(String string) {
-        ArrayList<String> keys = new ArrayList<>();
-        int index = 1; // Ignore {
-            
-            boolean firstIteration = true;
-            
-            while (index < string.length()) {
-                
-                if (firstIteration) {
-                    int keyEndIndex = string.indexOf('"', 2);
-                    keys.add(string.substring(3, keyEndIndex));
-                    firstIteration = false;
-                    index = keyEndIndex;    
-                continue;
-            }
-
-            int colonIndex = string.indexOf(':', index);
-            int keyStartIndex = string.indexOf('"', colonIndex)+1;
-            int keyEndIndex = string.indexOf('"', keyStartIndex+1);
-            if ((keyStartIndex <= 0) || (keyEndIndex <= 0)) {
-                break;
-            }
-
-            String key = string.substring(keyStartIndex, keyEndIndex);
-
-            keys.add(key);
-
-            index = keyEndIndex;
-        }
-        
-        return keys;
-    }
-
-    public ArrayList<String> getValues(String string) {
-        ArrayList<String> keys = getKeys(string);
-        ArrayList<String> values = new ArrayList<>();
-        int index = 0;
-        int valueEndIndex = 0;
-
-        while (valueEndIndex >= string.length()) {
-            int keyIndex = string.indexOf(keys.get(index));
-            int nextKeyIndex = string.indexOf(keys.get(index + 1));
-            
-
-            int valueStartIndex = string.indexOf('"',keyIndex) + 3;
-
-            if (nextKeyIndex + 1 < keys.size()) {
-                valueEndIndex = nextKeyIndex-2;
-            }
-            else {
-                valueEndIndex = string.indexOf("}");
-            }
-
-            index++;
-
-            String value = string.substring(valueStartIndex, valueEndIndex);
-
-            values.add(value);
-
-        }
-
-        return values;
-    }
-
-    public Object getValue(String key) {
-        return keysValues.get(key);
-    }
-
-    public JSON set(String string){
-        ArrayList<String> values = getValues(string);
-        ArrayList<String> keys = getKeys(string);
-
-        HashMap<String, Object> keysValues = new HashMap<>();
-
-        for (int i = 0; i < values.size(); i++) {
-            keysValues.put(keys.get(i), values.get(i));
-        }
-
-        return new JSON(keysValues);
     }
 }
